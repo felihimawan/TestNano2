@@ -150,25 +150,64 @@ class ContentViewModel: ObservableObject {
     
     
     func checkPlayerInput() {
+        //yang lama
+        
+        //        if playerInput.count == pattern.count {
+        //            if playerInput == pattern {
+        //                // Correct pattern
+        //                print("Correct pattern entered")
+        //                currentStage += 1
+        //                pattern = generatePattern(for: currentStage)
+        //                playerInput = []
+        //                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        //                    self.showPattern()
+        //                }
+        //            } else {
+        //                // Incorrect pattern
+        //                print("Incorrect pattern entered, game over")
+        //                isPlaying = false
+        //                playerInput = []
+        //                resetAllButtons()
+        //            }
+        //        }
+        
+        // logic baru
         if playerInput.count == pattern.count {
             if playerInput == pattern {
-                // Correct pattern
-                print("Correct pattern entered")
-                currentStage += 1
-                pattern = generatePattern(for: currentStage)
-                playerInput = []
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.showPattern()
-                }
+                nextLevel()
             } else {
-                // Incorrect pattern
-                print("Incorrect pattern entered, game over")
-                isPlaying = false
-                playerInput = []
-                resetAllButtons()
+                gameOver()
             }
+        }
+        else{
+            if(playerInput.count > 0){
+                for i in 0...playerInput.count-1{
+                    if(playerInput[i] != pattern[i]){
+                        gameOver()
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func nextLevel(){
+        // Correct pattern
+        print("Correct pattern entered")
+        currentStage += 1
+        pattern = generatePattern(for: currentStage)
+        playerInput = []
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.showPattern()
         }
     }
     
+    func gameOver(){
+        // Incorrect pattern
+        print("Incorrect pattern entered, game over")
+        isPlaying = false
+        playerInput = []
+        resetAllButtons()
+    }
     
 }
