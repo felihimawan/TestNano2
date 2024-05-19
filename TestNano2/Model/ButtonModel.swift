@@ -10,5 +10,5 @@ import SwiftUI
 
 struct ButtonModel{
     var id: Int
-    var color: Color = .blue
+    var color: Color = .yellow
 }
