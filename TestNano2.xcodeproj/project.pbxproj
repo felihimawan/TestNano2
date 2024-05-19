@@ -14,6 +14,7 @@
 		3D436ECE2BF78D4F00A19EA1 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D436ECD2BF78D4F00A19EA1 /* ButtonView.swift */; };
 		3D436ED42BF78F9200A19EA1 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D436ED32BF78F9200A19EA1 /* ContentViewModel.swift */; };
 		3D436ED92BF7B2E100A19EA1 /* ButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D436ED82BF7B2E100A19EA1 /* ButtonModel.swift */; };
+		3D436EDB2BFA3C2000A19EA1 /* GameOverPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D436EDA2BFA3C2000A19EA1 /* GameOverPopupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		3D436ECD2BF78D4F00A19EA1 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		3D436ED32BF78F9200A19EA1 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		3D436ED82BF7B2E100A19EA1 /* ButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonModel.swift; sourceTree = "<group>"; };
+		3D436EDA2BFA3C2000A19EA1 /* GameOverPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverPopupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				3D436ECD2BF78D4F00A19EA1 /* ButtonView.swift */,
 				3D436EBD2BF4F93C00A19EA1 /* ContentView.swift */,
+				3D436EDA2BFA3C2000A19EA1 /* GameOverPopupView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D436ED42BF78F9200A19EA1 /* ContentViewModel.swift in Sources */,
+				3D436EDB2BFA3C2000A19EA1 /* GameOverPopupView.swift in Sources */,
 				3D436EBE2BF4F93C00A19EA1 /* ContentView.swift in Sources */,
 				3D436ED92BF7B2E100A19EA1 /* ButtonModel.swift in Sources */,
 				3D436EBC2BF4F93C00A19EA1 /* TestNano2App.swift in Sources */,

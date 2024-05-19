@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AudioToolbox
 
 class ContentViewModel: ObservableObject {
     @Published var pressedButtonId: Int?
@@ -14,6 +15,7 @@ class ContentViewModel: ObservableObject {
     @Published var currentStage = 1
     @Published var pattern: [Int] = []
     @Published var playerInput: [Int] = []
+    @Published var showGameOverPopup = false
     
     var buttons: [ButtonModel] = [
         ButtonModel(id: 1),
@@ -27,7 +29,6 @@ class ContentViewModel: ObservableObject {
         ButtonModel(id: 9),
         ButtonModel(id: 0)
     ]
-    //coba push
     
     //    func buttonPressed(id: Int) {
     //        pressedButtonId = id
@@ -60,11 +61,11 @@ class ContentViewModel: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.highlightButton(id: id)
             }
-            delay += 0.4
+            delay += 0.3
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.resetButton(id: id)
             }
-            delay += 0.4
+            delay += 0.3
         }
         // Ensure buttons reset to blue after showing pattern
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
@@ -78,6 +79,7 @@ class ContentViewModel: ObservableObject {
         print("Highlighting button \(id)")
         if let index = buttons.firstIndex(where: { $0.id == id }) {
             buttons[index].color = .red
+            self.playDTMFTone(for: id)
             objectWillChange.send()
             print("Highlighting button \(id) to red")
         }
@@ -142,6 +144,7 @@ class ContentViewModel: ObservableObject {
         print("Button \(id) pressed")
         playerInput.append(id)
         highlightButton(id: id)
+        self.playDTMFTone(for: id)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.resetButton(id: id)
             self.checkPlayerInput()
@@ -149,65 +152,86 @@ class ContentViewModel: ObservableObject {
     }
     
     
+    func playDTMFTone(for digit: Int) {
+        guard digit >= 0 && digit <= 9 else { return }
+        let dtmfTones: [SystemSoundID] = [
+            1201, // DTMF tone for 1
+            1202, // DTMF tone for 2
+            1203, // DTMF tone for 3
+            1204, // DTMF tone for 4
+            1205, // DTMF tone for 5
+            1206, // DTMF tone for 6
+            1207, // DTMF tone for 7
+            1208, // DTMF tone for 8
+            1209, // DTMF tone for 9
+            1200 // DTMF tone for 0
+        ]
+        
+        let toneID = dtmfTones[digit]
+        AudioServicesPlaySystemSound(toneID)
+    }
+    
+    
     func checkPlayerInput() {
         //yang lama
         
-        //        if playerInput.count == pattern.count {
-        //            if playerInput == pattern {
-        //                // Correct pattern
-        //                print("Correct pattern entered")
-        //                currentStage += 1
-        //                pattern = generatePattern(for: currentStage)
-        //                playerInput = []
-        //                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-        //                    self.showPattern()
-        //                }
-        //            } else {
-        //                // Incorrect pattern
-        //                print("Incorrect pattern entered, game over")
-        //                isPlaying = false
-        //                playerInput = []
-        //                resetAllButtons()
-        //            }
-        //        }
-        
-        // logic baru
-        if playerInput.count == pattern.count {
-            if playerInput == pattern {
-                nextLevel()
-            } else {
-                gameOver()
-            }
-        }
-        else{
-            if(playerInput.count > 0){
-                for i in 0...playerInput.count-1{
-                    if(playerInput[i] != pattern[i]){
-                        gameOver()
+                if playerInput.count == pattern.count {
+                    if playerInput == pattern {
+                        // Correct pattern
+                        print("Correct pattern entered")
+                        currentStage += 1
+                        pattern = generatePattern(for: currentStage)
+                        playerInput = []
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.showPattern()
+                        }
+                    } else {
+                        // Incorrect pattern
+                        print("Incorrect pattern entered, game over")
+                        isPlaying = false
+                        playerInput = []
+                        resetAllButtons()
+                        showGameOverPopup = true
                     }
                 }
-            }
-        }
+        
+//        // logic baru
+//        if playerInput.count == pattern.count {
+//            if playerInput == pattern {
+//                nextLevel()
+//            } else {
+//                gameOver()
+//            }
+//        }
+//        else{
+//            if(playerInput.count > 0){
+//                for i in 0...playerInput.count-1{
+//                    if(playerInput[i] != pattern[i]){
+//                        gameOver()
+//                    }
+//                }
+//            }
+//        }
         
     }
     
-    func nextLevel(){
-        // Correct pattern
-        print("Correct pattern entered")
-        currentStage += 1
-        pattern = generatePattern(for: currentStage)
-        playerInput = []
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showPattern()
-        }
-    }
-    
-    func gameOver(){
-        // Incorrect pattern
-        print("Incorrect pattern entered, game over")
-        isPlaying = false
-        playerInput = []
-        resetAllButtons()
-    }
+//    func nextLevel(){
+//        // Correct pattern
+//        print("Correct pattern entered")
+//        currentStage += 1
+//        pattern = generatePattern(for: currentStage)
+//        playerInput = []
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            self.showPattern()
+//        }
+//    }
+//    
+//    func gameOver(){
+//        // Incorrect pattern
+//        print("Incorrect pattern entered, game over")
+//        isPlaying = false
+//        playerInput = []
+//        resetAllButtons()
+//    }
     
 }

@@ -27,28 +27,43 @@ struct ContentView: View {
             //            Text("Button id pressed: \(viewModel.pressedButtonId ?? 0)")
             //                .padding()
             
-            VStack(spacing: 10) {
-                HStack(spacing: 10) {
-                    ButtonView(button: viewModel.buttons[0], viewModel: viewModel)
-                    ButtonView(button: viewModel.buttons[1], viewModel: viewModel)
-                    ButtonView(button: viewModel.buttons[2], viewModel: viewModel)
+            ZStack {
+                VStack(spacing: 10) {
+                    HStack(spacing: 10) {
+                        ButtonView(button: viewModel.buttons[0], viewModel: viewModel)
+                        ButtonView(button: viewModel.buttons[1], viewModel: viewModel)
+                        ButtonView(button: viewModel.buttons[2], viewModel: viewModel)
+                    }
+                    HStack(spacing: 10) {
+                        ButtonView(button: viewModel.buttons[3], viewModel: viewModel)
+                        ButtonView(button: viewModel.buttons[4], viewModel: viewModel)
+                        ButtonView(button: viewModel.buttons[5], viewModel: viewModel)
+                    }
+                    HStack(spacing: 10) {
+                        ButtonView(button: viewModel.buttons[6], viewModel: viewModel)
+                        ButtonView(button: viewModel.buttons[7], viewModel: viewModel)
+                        ButtonView(button: viewModel.buttons[8], viewModel: viewModel)
+                    }
+                    HStack(spacing: 10) {
+                        Spacer()
+                        ButtonView(button: viewModel.buttons[9], viewModel: viewModel)
+                        Spacer()
+                    }
                 }
-                HStack(spacing: 10) {
-                    ButtonView(button: viewModel.buttons[3], viewModel: viewModel)
-                    ButtonView(button: viewModel.buttons[4], viewModel: viewModel)
-                    ButtonView(button: viewModel.buttons[5], viewModel: viewModel)
+                
+                
+                if viewModel.showGameOverPopup {
+                    GameOverPopupView(completedStage: viewModel.currentStage - 1) {
+                        viewModel.showGameOverPopup = false
+                    }
+                    .transition(.scale)
                 }
-                HStack(spacing: 10) {
-                    ButtonView(button: viewModel.buttons[6], viewModel: viewModel)
-                    ButtonView(button: viewModel.buttons[7], viewModel: viewModel)
-                    ButtonView(button: viewModel.buttons[8], viewModel: viewModel)
-                }
-                HStack(spacing: 10) {
-                    Spacer()
-                    ButtonView(button: viewModel.buttons[9], viewModel: viewModel)
-                    Spacer()
-                }
+                
+                
             }
+            
+            
+            
         }
     }
 }
