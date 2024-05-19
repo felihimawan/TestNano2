@@ -27,7 +27,7 @@ class ContentViewModel: ObservableObject {
         ButtonModel(id: 9),
         ButtonModel(id: 0)
     ]
-    
+    //coba push
     
     //    func buttonPressed(id: Int) {
     //        pressedButtonId = id
