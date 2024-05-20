@@ -20,6 +20,6 @@ struct ButtonView: View {
                 .frame(width: 90, height: 90)
                 .overlay(Text("\(button.id)").foregroundColor(.white))
         }
-        .disabled(!viewModel.isPlaying)
+        .disabled(!viewModel.isPlaying || viewModel.isShowingPattern)
     }
 }

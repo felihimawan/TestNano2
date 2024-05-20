@@ -10,13 +10,14 @@ import SwiftUI
 import AudioToolbox
 import SwiftData
 
-class ContentViewModel: ObservableObject {    
+class ContentViewModel: ObservableObject {
     @Published var pressedButtonId: Int?
     @Published var isPlaying = false
     @Published var currentStage = 1
     @Published var pattern: [Int] = []
     @Published var playerInput: [Int] = []
     @Published var showGameOverPopup = false
+    @Published var isShowingPattern = false
     
     var buttons: [ButtonModel] = [
         ButtonModel(id: 1),
@@ -57,6 +58,7 @@ class ContentViewModel: ObservableObject {
     
     func showPattern() {
         print("Showing pattern: \(pattern)")
+        isShowingPattern = true
         var delay = 0.0
         for id in pattern {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
@@ -67,6 +69,9 @@ class ContentViewModel: ObservableObject {
                 self.resetButton(id: id)
             }
             delay += 0.3
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            self.isShowingPattern = false
         }
     }
     
@@ -139,25 +144,25 @@ class ContentViewModel: ObservableObject {
     func checkPlayerInput() {
         //yang lama
         
-//                if playerInput.count == pattern.count {
-//                    if playerInput == pattern {
-//                        // Correct pattern
-//                        print("Correct pattern entered")
-//                        currentStage += 1
-//                        pattern = generatePattern(for: currentStage)
-//                        playerInput = []
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                            self.showPattern()
-//                        }
-//                    } else {
-//                        // Incorrect pattern
-//                        print("Incorrect pattern entered, game over")
-//                        isPlaying = false
-//                        playerInput = []
-//                        resetAllButtons()
-//                        showGameOverPopup = true
-//                    }
-//                }
+        //                if playerInput.count == pattern.count {
+        //                    if playerInput == pattern {
+        //                        // Correct pattern
+        //                        print("Correct pattern entered")
+        //                        currentStage += 1
+        //                        pattern = generatePattern(for: currentStage)
+        //                        playerInput = []
+        //                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        //                            self.showPattern()
+        //                        }
+        //                    } else {
+        //                        // Incorrect pattern
+        //                        print("Incorrect pattern entered, game over")
+        //                        isPlaying = false
+        //                        playerInput = []
+        //                        resetAllButtons()
+        //                        showGameOverPopup = true
+        //                    }
+        //                }
         
         // logic baru
         if playerInput.count == pattern.count {
@@ -196,7 +201,7 @@ class ContentViewModel: ObservableObject {
         isPlaying = false
         playerInput = []
         resetAllButtons()
-    
+        
         showGameOverPopup = true
     }
     
