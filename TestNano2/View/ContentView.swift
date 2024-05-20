@@ -8,21 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) var context
     @StateObject var viewModel = ContentViewModel()
+    @State private var showingHighScoreView = false
     
     var body: some View {
         VStack {
             
-            if !viewModel.isPlaying {
-                Button("Play") {
-                    viewModel.startGame()
-                }
-                .padding()
-            } else {
-                Text("Stage: \(viewModel.currentStage)")
+            HStack{
+                if !viewModel.isPlaying {
+                    Button("Play") {
+                        viewModel.startGame()
+                    }
                     .padding()
+                } else {
+                    Text("Stage: \(viewModel.currentStage)")
+                        .padding()
+                    
+                }
+                
+                Button(action: {
+                    showingHighScoreView = true
+                }) {
+                    Image(systemName: "trophy.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .padding()
+                }
+                .sheet(isPresented: $showingHighScoreView) {
+                    HighScoreView()
+                }
                 
             }
+            
+            
             
             //            Text("Button id pressed: \(viewModel.pressedButtonId ?? 0)")
             //                .padding()
@@ -55,6 +74,7 @@ struct ContentView: View {
                 if viewModel.showGameOverPopup {
                     GameOverPopupView(completedStage: viewModel.currentStage - 1) {
                         viewModel.showGameOverPopup = false
+                        viewModel.saveHighScore(stagesCompleted: viewModel.currentStage - 1, context: context)
                     }
                     .transition(.scale)
                 }

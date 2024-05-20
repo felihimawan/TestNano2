@@ -13,5 +13,8 @@ struct TestNano2App: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [
+            HighScoreModel.self
+        ])
     }
 }
