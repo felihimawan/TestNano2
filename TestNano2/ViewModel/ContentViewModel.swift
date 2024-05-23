@@ -79,7 +79,22 @@ class ContentViewModel: ObservableObject {
     func highlightButton(id: Int) {
         print("Highlighting button \(id)")
         if let index = buttons.firstIndex(where: { $0.id == id }) {
-            buttons[index].color = .red
+            buttons[index].color = Color("button_bg_pressed_main")
+            buttons[index].color_pressed = Color("button_pressed_main")
+            buttons[index].scale = 0.6
+            self.playDTMFTone(for: id)
+            objectWillChange.send()
+            print("Highlighting button \(id) to red")
+        }
+        print("Highlighting button done")
+    }
+    
+    func highlightButtonUser(id: Int) {
+        print("Highlighting button user \(id)")
+        if let index = buttons.firstIndex(where: { $0.id == id }) {
+            buttons[index].color = Color("button_bg_pressed_correct")
+            buttons[index].color_pressed = Color("button_pressed_correct")
+            buttons[index].scale = 0.6
             self.playDTMFTone(for: id)
             objectWillChange.send()
             print("Highlighting button \(id) to red")
@@ -90,17 +105,22 @@ class ContentViewModel: ObservableObject {
     func resetButton(id: Int) {
         print("Resetting button \(id)")
         if let index = buttons.firstIndex(where: { $0.id == id }) {
-            buttons[index].color = .blue
+            buttons[index].color = Color("button_bg_color")
+            buttons[index].color_pressed = Color("button_main_color")
+            buttons[index].scale = 1.0
             objectWillChange.send()
             print("Resetting button \(id) to blue")
         }
         print("Resetting button done")
     }
     
+    
     func resetAllButtons() {
         print("Resetting all buttons to blue")
         for index in buttons.indices {
-            buttons[index].color = .blue
+            buttons[index].color = Color("button_bg_color")
+            buttons[index].color_pressed = Color("button_main_color")
+            buttons[index].scale = 1.0
         }
         objectWillChange.send()
         print("Resetting all buttons done")
@@ -112,11 +132,13 @@ class ContentViewModel: ObservableObject {
         
         print("Button \(id) pressed")
         playerInput.append(id)
-        highlightButton(id: id)
+        
+        highlightButtonUser(id: id)
+        self.checkPlayerInput()
         self.playDTMFTone(for: id)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
             self.resetButton(id: id)
-            self.checkPlayerInput()
         }
     }
     
