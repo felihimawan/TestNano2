@@ -14,23 +14,56 @@ struct GameOverPopupView: View {
     var body: some View {
         VStack {
             Text("Game Over")
-                .font(.largeTitle)
+                .font(.system(size: 55, weight: .heavy))
+                .foregroundColor(Color("text_color"))
                 .padding()
-            Text("\(completedStage) stages completed")
+            Text("\(completedStage)")
+                .font(.system(size: 55, weight: .heavy))
+                .foregroundColor(Color("text_color"))
+            Text("Stages Completed")
                 .font(.title)
-                .padding()
-            Button(action: onClose) {
-                Text("OK")
-                    .font(.title)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                .fontWeight(.medium)
+                .foregroundColor(Color("text_color"))
+//            Button(action: onClose) {
+//                Text("OK")
+//                    .font(.title)
+//                    .padding()
+//                    .background(Color.blue)
+//                    .foregroundColor(.white)
+//                    .cornerRadius(10)
+//            }
+            Button(action: {
+                onClose()
+            }){
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(Color("button_game_bg"))
+                    .frame(width: 130, height: 80)
+                    .shadow(color: .gray, radius: 2, x: 0, y: 3)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15.0)
+                            .fill(Color("button_bg_color"))
+                            .frame(width: 100, height: 50)
+                            .overlay(
+                                Text("Ok")
+                                    .font(.system(size: 35, weight: .bold))
+                                    .foregroundColor(Color("text_color"))
+                                    
+                            )
+                        
+                        
+                    )
             }
+            .padding()
+         
         }
-        .frame(width: 300, height: 200)
-        .background(Color.white)
+        .frame(width: 400, height: 400)
+        .background(Color("game_bg"))
         .cornerRadius(20)
-        .shadow(radius: 10)
+        //.shadow(color: .gray, radius: 4, x: 0, y: 3)
     }
+}
+
+
+#Preview {
+    GameOverPopupView(completedStage: 5, onClose: { print("Popup closed") })
 }
