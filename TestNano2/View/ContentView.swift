@@ -22,9 +22,9 @@ struct ContentView: View {
             
             VStack{
                 
+                
                 HStack{
                     Spacer()
-                    
                     Button(action: {
                         showingHighScoreView = true
                     }) {
@@ -80,7 +80,8 @@ struct ContentView: View {
                                 
                             )
                     }
-                 
+                    .disabled(viewModel.showGameOverPopup)
+                    .opacity(viewModel.showGameOverPopup ? 0.5 : 1)
                   
                 } else {
                     Text("Stage: \(viewModel.currentStage)")
@@ -121,6 +122,8 @@ struct ContentView: View {
                     }
                     
                     
+                    
+                    
                     if viewModel.showGameOverPopup {
                         GameOverPopupView(completedStage: viewModel.currentStage - 1) {
                             viewModel.showGameOverPopup = false
@@ -140,6 +143,7 @@ struct ContentView: View {
             .frame(maxHeight: .infinity, alignment: .top)
         }
         .background(Color("game_bg"))
+       
     }
 }
 
